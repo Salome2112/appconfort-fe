@@ -1,0 +1,72 @@
+<!-- Fondo oscuro -->
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+  <!-- Modal -->
+  <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-semibold text-gray-800">
+        {{ esEdicion() ? 'Editar Cliente' : 'Nuevo Cliente' }}
+      </h2>
+      <button (click)="onCerrar()" class="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+    </div>
+
+    <!-- Formulario -->
+    <div class="flex flex-col gap-4">
+
+      <div>
+        <label class="text-sm text-gray-600 mb-1 block">NUI</label>
+        <input [(ngModel)]="formData.nui" type="text" placeholder="0912345678"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <div>
+        <label class="text-sm text-gray-600 mb-1 block">Nombres</label>
+        <input [(ngModel)]="formData.firstName" type="text" placeholder="Carlos"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <div>
+        <label class="text-sm text-gray-600 mb-1 block">Apellidos</label>
+        <input [(ngModel)]="formData.lastName" type="text" placeholder="Mendoza"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <div>
+        <label class="text-sm text-gray-600 mb-1 block">Email</label>
+        <input [(ngModel)]="formData.email" type="email" placeholder="carlos@email.com"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="flex justify-between mt-6">
+
+      <!-- Botón eliminar solo en edición -->
+      @if (esEdicion()) {
+      <button (click)="onEliminar()"
+        class="px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+        Eliminar
+      </button>
+      } @else {
+      <span></span>
+      }
+
+      <div class="flex gap-3">
+        <button (click)="onCerrar()"
+          class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+          Cancelar
+        </button>
+        <button (click)="onGuardar()"
+          class="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          Guardar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>

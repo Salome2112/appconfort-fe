@@ -1,0 +1,23 @@
+<nav class="bg-white shadow-sm border-b border-gray-200 px-6 py-3">
+    <div class="flex items-center justify-between">
+
+        <!-- Logo -->
+        <span class="text-lg font-semibold text-gray-800">
+            🪑 Mueblería App
+        </span>
+
+        <!-- Links -->
+        <ul class="flex gap-2">
+            @for (item of menuItems; track item.path) {
+            <li>
+                <a [routerLink]="item.path" routerLinkActive="bg-blue-50 text-blue-600 font-medium"
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors">
+                    <span>{{ item.icon }}</span>
+                    <span>{{ item.label }}</span>
+                </a>
+            </li>
+            }
+        </ul>
+
+    </div>
+</nav>

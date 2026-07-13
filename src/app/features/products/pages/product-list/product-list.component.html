@@ -1,0 +1,62 @@
+<div class="p-6">
+    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Productos</h1>
+
+    <div class="flex justify-end mb-4">
+        <button (click)="abrirModal()"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            + Nuevo Producto
+        </button>
+    </div>
+
+    <!-- Loading -->
+    @if (loading()) {
+    <p class="text-gray-500">Cargando...</p>
+    }
+
+    <!-- Error -->
+    @if (error()) {
+    <p class="text-red-500">{{ error() }}</p>
+    }
+
+    <!-- Tabla -->
+    @if (!loading() && products().length > 0) {
+    <table class="w-full border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+        <thead class="bg-gray-50 text-left text-sm text-gray-600">
+            <tr>
+                <th class="px-4 py-3">SKU</th>
+                <th class="px-4 py-3">Nombre</th>
+                <th class="px-4 py-3">Categoría</th>
+                <th class="px-4 py-3">Precio</th>
+                <th class="px-4 py-3">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (product of products(); track product.id) {
+            <tr (click)="seleccionarProducto(product)" class="border-t border-gray-100 hover:bg-gray-50 cursor-pointer">
+                <td class="px-4 py-3 text-sm text-gray-500">{{ product.sku }}</td>
+                <td class="px-4 py-3 text-sm">{{ product.name }}</td>
+                <td class="px-4 py-3 text-sm">{{ product.category }}</td>
+                <td class="px-4 py-3 text-sm">${{ product.basePrice }}</td>
+                <td class="px-4 py-3 text-sm">
+                    @if (product.isActive) {
+                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Activo</span>
+                    } @else {
+                    <span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs">Inactivo</span>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    }
+
+    <!-- Sin datos -->
+    @if (!loading() && products().length === 0) {
+    <p class="text-gray-400">No hay productos registrados.</p>
+    }
+
+    <!-- Modal -->
+    @if (mostrarModal()) {
+    <app-product-form [producto]="productoSeleccionado()" (cerrar)="cerrarModal()" (guardado)="alGuardar()" />
+    }
+</div>

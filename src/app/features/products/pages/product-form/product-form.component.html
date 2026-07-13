@@ -1,0 +1,85 @@
+<!-- Fondo oscuro -->
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+    <!-- Modal -->
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-lg font-semibold text-gray-800">
+                {{ esEdicion() ? 'Editar Producto' : 'Nuevo Producto' }}
+            </h2>
+            <button (click)="onCerrar()" class="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+        </div>
+
+        <!-- Formulario -->
+        <div class="flex flex-col gap-4">
+
+            <div>
+                <label class="text-sm text-gray-600 mb-1 block">SKU</label>
+                <input [(ngModel)]="formData.sku" type="text" placeholder="SOFA-3P-GRS" [disabled]="esEdicion()"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400" />
+            </div>
+
+            <div>
+                <label class="text-sm text-gray-600 mb-1 block">Nombre</label>
+                <input [(ngModel)]="formData.name" type="text" placeholder="Sofá 3 Puestos Gris"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+
+            <div>
+                <label class="text-sm text-gray-600 mb-1 block">Descripción</label>
+                <textarea [(ngModel)]="formData.description" placeholder="Descripción del producto" rows="2"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+
+            <div>
+                <label class="text-sm text-gray-600 mb-1 block">Categoría</label>
+                <select [(ngModel)]="formData.category"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @for (cat of categorias; track cat) {
+                    <option [value]="cat">{{ cat }}</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="text-sm text-gray-600 mb-1 block">Precio Base</label>
+                <input [(ngModel)]="formData.basePrice" type="number" placeholder="0.00"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+
+            <div class="flex items-center gap-2">
+                <input [(ngModel)]="formData.isActive" type="checkbox" id="isActive" class="w-4 h-4 accent-blue-600" />
+                <label for="isActive" class="text-sm text-gray-600">Producto activo</label>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-between mt-6">
+
+            @if (esEdicion()) {
+            <button (click)="onEliminar()"
+                class="px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                Eliminar
+            </button>
+            } @else {
+            <span></span>
+            }
+
+            <div class="flex gap-3">
+                <button (click)="onCerrar()"
+                    class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                    Cancelar
+                </button>
+                <button (click)="onGuardar()"
+                    class="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    Guardar
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
