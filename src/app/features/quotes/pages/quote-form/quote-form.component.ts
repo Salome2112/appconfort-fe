@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerSearchModalComponent } from '../../components/customer-search-modal/customer-search-modal.component';
 import { Client } from '../../../../shared/models/client.model';
 import { Quote } from '../../../../shared/models/quote.model';
@@ -22,17 +22,7 @@ export class QuoteFormComponent {
     private router = inject(Router);
     private quoteService = inject(QuoteService);
     private productService = inject(ProductService);
-
-    quote = signal<Quote | null>(null);
-    // Helper method to decide if we are editing or creating a new quote
-    esEdicion(): boolean {
-        return false;
-    }
-
-    testProducts = signal<Product[]>([
-        { id: 1, sku: 'SOFA-3P-GRS', name: 'Sofá 3 Puestos Gris', basePrice: 850, category: 'OTHER', isActive: true },
-        { id: 2, sku: 'MESA-CENT-01', name: 'Mesa de Centro Roble', basePrice: 220, category: 'OTHER', isActive: true },
-    ]);
+    private route = inject(ActivatedRoute);
 
     // Guardaremos el ID que nos devuelva el backend
     quoteId = signal<number | null>(null);
@@ -40,9 +30,29 @@ export class QuoteFormComponent {
     isOpenClientSearch = signal<boolean>(false);
     isOpenProductSearch = signal<boolean>(false);
     products = signal<Product[]>([]);
+    quote = signal<Quote | null>(null);
+    isEditMode = signal(false);
+    // Helper method to decide if we are editing or creating a new quote
 
-
-
+    ngOnInit(): void {
+        const id = this.route.snapshot.paramMap.get('id'); // ← reads :id from URL
+        if (id) {
+            this.isEditMode.set(true);
+            this.loadQuote(Number(id));
+        }
+    }
+    loadQuote(id: number): void {
+        this.quoteService.getById(id).subscribe({
+            next: (quote) => {
+                this.quote.set(quote);
+                this.selectedClient.set(quote.client);
+            },
+            error: (err) => console.error('Error loading quote:', err)
+        });
+    }
+    esEdicion(): boolean {
+        return false;
+    }
 
     openClientSearch() {
         this.isOpenClientSearch.set(true);

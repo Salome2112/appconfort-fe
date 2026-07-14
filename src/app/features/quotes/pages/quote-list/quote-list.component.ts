@@ -22,6 +22,10 @@ export class QuoteListComponent implements OnInit {
         this.loadQuotes();
     }
 
+    goToQuote(id: number): void {
+        this.router.navigate(['/quotes', id]);
+    }
+
     loadQuotes(): void {
         this.loading.set(true);
         this.quoteService.getAll().subscribe({

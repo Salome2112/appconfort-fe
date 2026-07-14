@@ -5,4 +5,5 @@ import { QuoteFormComponent } from './pages/quote-form/quote-form.component';
 export const QUOTE_ROUTES: Routes = [
     { path: '', component: QuoteListComponent },
     { path: 'new', component: QuoteFormComponent },
+    { path: ':id', component: QuoteFormComponent }
 ];

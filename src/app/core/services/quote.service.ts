@@ -27,4 +27,7 @@ export class QuoteService {
     removeItem(quoteId: number, itemId: number): Observable<void> {
         return this.http.delete<void>(`${this.baseUrl}/${quoteId}/items/${itemId}`);
     }
+    getById(id: number): Observable<Quote> {
+        return this.http.get<Quote>(`${this.baseUrl}/${id}`);
+    }
 }

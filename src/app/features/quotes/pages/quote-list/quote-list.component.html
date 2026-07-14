@@ -30,7 +30,7 @@
         </thead>
         <tbody>
             @for (quote of quotes(); track quote.id) {
-            <tr class="border-t border-gray-100 hover:bg-gray-50 cursor-pointer">
+            <tr (click)="goToQuote(quote.id)" class="border-t border-gray-100 hover:bg-gray-50 cursor-pointer">
                 <td class="px-4 py-3 text-sm text-gray-500">{{ quote.number }}</td>
                 <td class="px-4 py-3 text-sm">{{ quote.issuedAt | date:'dd/MM/yyyy' }}</td>
                 <td class="px-4 py-3 text-sm">{{ quote.client.firstName }} {{ quote.client.lastName }}</td>
