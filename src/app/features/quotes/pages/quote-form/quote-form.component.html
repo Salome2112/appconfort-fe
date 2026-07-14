@@ -57,8 +57,12 @@
         @if (quote()) {
         <div class="border-t pt-6">
             <div class="flex gap-6">
-                <app-product-picker [quoteId]="quote()!.id" (productAdded)="quoteItemsList.loadItems()" />
-                <app-quote-items-list #quoteItemsList [quoteId]="quote()!.id" />
+                <div class="w-1/2">
+                    <app-product-picker [quoteId]="quote()!.id" (productAdded)="quoteItemsList.loadItems()" />
+                </div>
+                <div class="w-1/2">
+                    <app-quote-items-list #quoteItemsList [quoteId]="quote()!.id" />
+                </div>
             </div>
         </div>
         }@else {

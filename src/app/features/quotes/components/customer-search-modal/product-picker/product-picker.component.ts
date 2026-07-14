@@ -44,14 +44,26 @@ export class ProductPickerComponent implements OnInit {
     addProduct(product: Product): void {
         this.quoteService.addItem(this.quoteId(), {
             productId: product.id,
-            quantity: 1,
+            quantity: this.getQuantity(product.id), // ← use quantity
             unitPrice: product.basePrice
         }).subscribe({
-            next: () => {
-                this.productAdded.emit(); // ← notify parent
-                //this.loadItems();         // ← reload items list
-            },
+            next: () => this.productAdded.emit(),
             error: (err) => console.error('Error adding item:', err)
         });
+    }
+
+    quantities: Record<number, number> = {}; // ← stores quantity per product id
+
+    getQuantity(productId: number): number {
+        return this.quantities[productId] ?? 1;
+    }
+
+    increment(productId: number): void {
+        this.quantities[productId] = this.getQuantity(productId) + 1;
+    }
+
+    decrement(productId: number): void {
+        const current = this.getQuantity(productId);
+        if (current > 1) this.quantities[productId] = current - 1;
     }
 }
