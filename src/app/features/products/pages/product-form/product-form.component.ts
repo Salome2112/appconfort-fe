@@ -40,7 +40,7 @@ export class ProductFormComponent implements OnInit {
                 name: this.producto.name,
                 description: this.producto.description ?? '',
                 category: this.producto.category,
-                basePrice: parseFloat(this.producto.basePrice),
+                basePrice: this.producto.basePrice,
                 isActive: this.producto.isActive,
             };
         }

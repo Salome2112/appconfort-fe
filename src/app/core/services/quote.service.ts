@@ -16,4 +16,15 @@ export class QuoteService {
     create(payload: { clientId: number }): Observable<Quote> {
         return this.http.post<Quote>(this.baseUrl, payload);
     }
+
+    addItem(quoteId: number, item: { productId: number; quantity: number; unitPrice: number }): Observable<any> {
+        return this.http.post(`${this.baseUrl}/${quoteId}/items`, item);
+    }
+
+    getItems(quoteId: number): Observable<any[]> {
+        return this.http.get<any[]>(`${this.baseUrl}/${quoteId}/items`);
+    }
+    removeItem(quoteId: number, itemId: number): Observable<void> {
+        return this.http.delete<void>(`${this.baseUrl}/${quoteId}/items/${itemId}`);
+    }
 }

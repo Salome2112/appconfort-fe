@@ -6,7 +6,7 @@ export interface Product {
     name: string;
     description?: string;
     category: ProductCategory;
-    basePrice: string;   // ← viene como string desde la API
+    basePrice: number;   // ← viene como string desde la API
     isActive: boolean;
     createdAt?: string;
     updatedAt?: string;

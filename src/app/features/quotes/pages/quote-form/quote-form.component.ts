@@ -8,11 +8,13 @@ import { ProductService } from '../../../../core/services/product.service';
 import { Product } from '../../../../shared/models/product.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProductPickerComponent } from '../../components/customer-search-modal/product-picker/product-picker.component';
+import { QuoteItemsListComponent } from '../../components/quote-items-list/quote-items-list.component';
 
 @Component({
     selector: 'app-quote-form',
     standalone: true,
-    imports: [CustomerSearchModalComponent, CommonModule, FormsModule], // Empty imports for now since the header does not use any Angular directives
+    imports: [CustomerSearchModalComponent, CommonModule, FormsModule, ProductPickerComponent, QuoteItemsListComponent], // Empty imports for now since the header does not use any Angular directives
     templateUrl: './quote-form.component.html',
 
 })
@@ -27,22 +29,21 @@ export class QuoteFormComponent {
         return false;
     }
 
+    testProducts = signal<Product[]>([
+        { id: 1, sku: 'SOFA-3P-GRS', name: 'Sofá 3 Puestos Gris', basePrice: 850, category: 'OTHER', isActive: true },
+        { id: 2, sku: 'MESA-CENT-01', name: 'Mesa de Centro Roble', basePrice: 220, category: 'OTHER', isActive: true },
+    ]);
+
     // Guardaremos el ID que nos devuelva el backend
     quoteId = signal<number | null>(null);
     selectedClient = signal<Client | null>(null);
     isOpenClientSearch = signal<boolean>(false);
     isOpenProductSearch = signal<boolean>(false);
     products = signal<Product[]>([]);
-    searchText = '';
 
-    filteredProducts = computed(() => {
-        const search = this.searchText.toLowerCase();
-        if (!search) return this.products();
-        return this.products().filter(p =>
-            p.name.toLowerCase().includes(search) ||
-            p.sku.toLowerCase().includes(search)
-        );
-    });
+
+
+
     openClientSearch() {
         this.isOpenClientSearch.set(true);
     }

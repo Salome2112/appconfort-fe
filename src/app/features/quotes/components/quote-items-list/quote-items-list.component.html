@@ -1,0 +1,43 @@
+<div class="w-64 bg-gray-50 rounded-xl p-4 border border-gray-100 h-fit">
+
+    <h2 class="text-sm font-semibold text-gray-600 mb-3">Agregados</h2>
+
+    <!-- Loading -->
+    @if (loading()) {
+    <p class="text-xs text-gray-400 text-center py-4">Cargando...</p>
+    }
+
+    <!-- Items list -->
+    @if (!loading() && items().length > 0) {
+    <ul class="flex flex-col gap-2 mb-4">
+        @for (item of items(); track item.id) {
+        <li class="flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-gray-800">{{ item.product.name }}</p>
+                <p class="text-xs text-gray-400">Cant: {{ item.quantity }}</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <p class="text-sm font-semibold text-gray-700">${{ item.subtotal }}</p>
+                <button (click)="removeItem(item.id)" class="text-red-400 hover:text-red-600 transition text-xs">
+                    ✕
+                </button>
+            </div>
+        </li>
+        }
+    </ul>
+
+    <!-- Total -->
+    <div class="border-t pt-3 flex justify-between items-center">
+        <span class="text-sm font-semibold text-gray-600">Total</span>
+        <span class="text-sm font-bold text-indigo-600">USD {{ getTotal() }}</span>
+    </div>
+    }
+
+    <!-- Empty -->
+    @if (!loading() && items().length === 0) {
+    <p class="text-xs text-gray-400 text-center py-4">
+        Aún no hay productos agregados.
+    </p>
+    }
+
+</div>
