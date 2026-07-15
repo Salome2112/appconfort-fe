@@ -28,4 +28,12 @@ export class ProductService {
     delete(id: number): Observable<void> {
         return this.http.delete<void>(`${this.baseUrl}/${id}`);
     }
+    uploadImage(file: File): Observable<{ imageUrl: string }> {
+        const formData = new FormData();
+        formData.append('file', file);
+        return this.http.post<{ imageUrl: string }>(
+            `${this.baseUrl}/upload-image`,
+            formData
+        );
+    }
 }

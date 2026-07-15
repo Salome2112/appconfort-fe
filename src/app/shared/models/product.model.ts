@@ -6,7 +6,10 @@ export interface Product {
     name: string;
     description?: string;
     category: ProductCategory;
-    basePrice: number;   // ← viene como string desde la API
+    basePrice: number;
+    laborCost?: number;
+    profitMargin?: number;
+    imageUrl?: string;
     isActive: boolean;
     createdAt?: string;
     updatedAt?: string;
@@ -18,6 +21,9 @@ export interface CreateProductDto {
     description?: string;
     category?: ProductCategory;
     basePrice: number;
+    laborCost?: number;
+    profitMargin?: number;
+    imageUrl?: string;
     isActive?: boolean;
 }
 
