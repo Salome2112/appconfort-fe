@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../../../core/services/product.service';
 import { QuoteService } from '../../../../../core/services/quote.service';
-
+import { environment } from '../../../../../../environments/environment';
 
 export interface Product {
     id: number;
@@ -26,6 +26,7 @@ export class ProductPickerComponent implements OnInit {
     private quoteService = inject(QuoteService);
     products = signal<Product[]>([]);
     quoteId = input.required<number>();
+    apiUrl = environment.apiUrl;
 
     ngOnInit(): void {
         this.productService.getAll().subscribe({

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import { Product, CreateProductDto, ProductCategory } from '../../../../shared/models/product.model';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
     selector: 'app-product-form',
@@ -46,7 +47,7 @@ export class ProductFormComponent implements OnInit {
                 laborCost: this.producto.laborCost,
                 profitMargin: this.producto.profitMargin,
                 isActive: this.producto.isActive,
-                imageUrl: `http://localhost:3000${this.producto.imageUrl}`
+                imageUrl: `${environment.apiUrl}${this.producto.imageUrl}`
             };
         }
     }
