@@ -1,137 +1,101 @@
-<!-- Fondo oscuro -->
-<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-
-    <!-- Modal -->
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
-
-        <!-- Header -->
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-lg font-semibold text-gray-800">
-                {{ esEdicion() ? 'Editar Producto' : 'Nuevo Producto' }}
-            </h2>
-            <button (click)="onCerrar()" class="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+<p-dialog 
+  [header]="esEdicion() ? 'Editar Producto' : 'Nuevo Producto'" 
+  [visible]="visible()" 
+  (visibleChange)="onCerrar()"
+  [modal]="true" 
+  [style]="{ width: '520px' }" 
+  [draggable]="false" 
+  [resizable]="false"
+>
+  <div class="product-form-layout">
+    <!-- Row 1: Image & Basic fields -->
+    <div class="image-fields-row">
+      <!-- Image Upload Col -->
+      <div class="image-upload-col">
+        <div class="image-preview-box">
+          @if (imagePreview()) {
+            <img [src]="imagePreview()" alt="preview" />
+          } @else if (formData.imageUrl) {
+            <img [src]="formData.imageUrl" alt="producto" />
+          } @else {
+            <span class="placeholder-icon">🛋️</span>
+          }
         </div>
 
-        <!-- Formulario -->
-        <div class="flex flex-col gap-4">
+        @if (isUploadingImage()) {
+          <span class="uploading-text">Subiendo...</span>
+        } @else {
+          <label class="upload-label">
+            Cargar foto
+            <input type="file" accept="image/*" class="file-input-hidden" (change)="onImageSelected($event)" />
+          </label>
+        }
+      </div>
 
-            <!-- Fila 1: imagen + campos principales -->
-            <div class="flex gap-4">
-
-                <!-- Columna izquierda: imagen -->
-                <div class="flex flex-col items-center gap-2 w-32">
-
-                    <!-- Preview -->
-                    <div
-                        class="w-28 h-28 rounded-xl bg-gray-100 flex items-center justify-center border border-gray-200 overflow-hidden">
-                        @if (imagePreview()) {
-                        <img [src]="imagePreview()" alt="preview" class="w-full h-full object-cover" />
-                        } @else if (formData.imageUrl) {
-                        <img [src]="formData.imageUrl" alt="producto" class="w-full h-full object-cover" />
-                        } @else {
-                        <span class="text-4xl">🛋️</span>
-                        }
-                    </div>
-
-                    <!-- Upload button -->
-                    @if (isUploadingImage()) {
-                    <span class="text-xs text-gray-400">Subiendo...</span>
-                    } @else {
-                    <label class="text-xs text-indigo-600 hover:underline cursor-pointer">
-                        Cargar foto
-                        <input type="file" accept="image/*" class="hidden" (change)="onImageSelected($event)" />
-                    </label>
-                    }
-
-                </div>
-
-                <!-- Columna derecha: campos principales -->
-                <div class="flex flex-col gap-3 flex-1">
-                    <div>
-                        <label class="text-sm text-gray-600 mb-1 block">SKU</label>
-                        <input [(ngModel)]="formData.sku" type="text" placeholder="SOFA-3P-GRS" [disabled]="esEdicion()"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400" />
-                    </div>
-
-                    <div>
-                        <label class="text-sm text-gray-600 mb-1 block">Nombre</label>
-                        <input [(ngModel)]="formData.name" type="text" placeholder="Sofá 3 Puestos Gris"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    <div>
-                        <label class="text-sm text-gray-600 mb-1 block">Categoría</label>
-                        <select [(ngModel)]="formData.category"
-                            class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            @for (cat of categorias; track cat) {
-                            <option [value]="cat">{{ cat }}</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <input [(ngModel)]="formData.isActive" type="checkbox" id="isActive"
-                            class="w-4 h-4 accent-blue-600" />
-                        <label for="isActive" class="text-sm text-gray-600">Producto activo</label>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div>
-                <div>
-                    <label class="text-sm text-gray-600 mb-1 block">Descripción</label>
-                    <textarea [(ngModel)]="formData.description" placeholder="Descripción del producto" rows="2"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-            </div>
-            <div class="flex gap-3">
-
-                <div>
-                    <label class="text-sm text-gray-600 mb-1 block">Precio Base</label>
-                    <input [(ngModel)]="formData.basePrice" type="number" placeholder="0.00"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600 mb-1 block">Mano de Obra</label>
-                    <input [(ngModel)]="formData.laborCost" type="number" placeholder="0.00"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600 mb-1 block">Ganancia %</label>
-                    <input [(ngModel)]="formData.profitMargin" type="number" placeholder="0.00"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-
-            </div>
-
+      <!-- Basic fields Col -->
+      <div class="basic-fields-col">
+        <div class="field-group">
+          <label for="sku">SKU</label>
+          <input pInputText id="sku" [(ngModel)]="formData.sku" placeholder="SOFA-3P-GRS" [disabled]="esEdicion()" />
         </div>
 
-        <!-- Footer -->
-        <div class="flex justify-between mt-6">
+        <div class="field-group">
+          <label for="name">Nombre</label>
+          <input pInputText id="name" [(ngModel)]="formData.name" placeholder="Sofá 3 Puestos Gris" />
+        </div>
 
-            @if (esEdicion()) {
-            <button (click)="onEliminar()"
-                class="px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
-                Eliminar
-            </button>
-            } @else {
-            <span></span>
+        <div class="field-group">
+          <label for="category">Categoría</label>
+          <select id="category" [(ngModel)]="formData.category" class="custom-select">
+            @for (cat of categorias; track cat) {
+              <option [value]="cat">{{ cat }}</option>
             }
-
-            <div class="flex gap-3">
-                <button (click)="onCerrar()"
-                    class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                    Cancelar
-                </button>
-                <button (click)="onGuardar()"
-                    class="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                    Guardar
-                </button>
-            </div>
-
+          </select>
         </div>
 
+        <div class="checkbox-group">
+          <input [(ngModel)]="formData.isActive" type="checkbox" id="isActive" />
+          <label for="isActive">Producto activo</label>
+        </div>
+      </div>
     </div>
-</div>
+
+    <!-- Description field -->
+    <div class="field-group">
+      <label for="description">Descripción</label>
+      <textarea id="description" [(ngModel)]="formData.description" placeholder="Descripción del producto" rows="2" class="custom-textarea"></textarea>
+    </div>
+
+    <!-- Financial fields -->
+    <div class="financials-row">
+      <div class="field-group">
+        <label for="basePrice">Precio Base</label>
+        <input pInputText id="basePrice" type="number" [(ngModel)]="formData.basePrice" placeholder="0.00" />
+      </div>
+
+      <div class="field-group">
+        <label for="laborCost">Mano de Obra</label>
+        <input pInputText id="laborCost" type="number" [(ngModel)]="formData.laborCost" placeholder="0.00" />
+      </div>
+
+      <div class="field-group">
+        <label for="profitMargin">Ganancia %</label>
+        <input pInputText id="profitMargin" type="number" [(ngModel)]="formData.profitMargin" placeholder="0.00" />
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="footer-container">
+      @if (esEdicion()) {
+        <p-button label="Eliminar" severity="danger" [text]="true" (onClick)="onEliminar()"></p-button>
+      } @else {
+        <span></span>
+      }
+      <div class="actions-right">
+        <p-button label="Cancelar" severity="secondary" [text]="true" (onClick)="onCerrar()"></p-button>
+        <p-button label="Guardar" severity="primary" (onClick)="onGuardar()"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

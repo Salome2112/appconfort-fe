@@ -1,47 +1,39 @@
-<div class="w-full bg-gray-50 rounded-xl p-4 border border-gray-100 h-fit">
-
-    <h2 class="text-sm font-semibold text-gray-600 mb-3">Agregados</h2>
+<div class="quote-items-container">
+    <h2 class="section-title">Agregados</h2>
 
     <!-- Loading -->
     @if (loading()) {
-    <p class="text-xs text-gray-400 text-center py-4">Cargando...</p>
+        <p class="status-text">Cargando...</p>
     }
 
     <!-- Items list -->
     @if (!loading() && items().length > 0) {
-    <ul class="flex flex-col gap-2 mb-4">
-        @for (item of items(); track item.id) {
-        <li class="flex justify-between items-start">
-            <div>
-                <p class="text-sm font-medium text-gray-800">{{ item.product.name }}</p>
-                <p class="text-xs text-gray-400">Cant: {{ item.quantity }}</p>
-            </div>
-            <div class="flex items-center gap-2">
-                <p class="text-sm font-semibold text-gray-700">${{ item.subtotal }}</p>
-                <button (click)="removeItem(item.id)" class="text-red-400 hover:text-red-600 transition text-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="currentColor" class="h-4 w-4">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                    </svg>
-                </button>
-            </div>
-        </li>
-        }
-    </ul>
+        <ul class="items-list">
+            @for (item of items(); track item.id) {
+                <li class="item-row">
+                    <div class="item-info">
+                        <p class="item-name">{{ item.product.name }}</p>
+                        <p class="item-qty">Cant: {{ item.quantity }}</p>
+                    </div>
+                    <div class="item-pricing">
+                        <p class="item-subtotal">${{ item.subtotal }}</p>
+                        <p-button icon="pi pi-trash" severity="danger" [text]="true" size="small" (onClick)="removeItem(item.id)"></p-button>
+                    </div>
+                </li>
+            }
+        </ul>
 
-    <!-- Total -->
-    <div class="border-t pt-3 flex justify-between items-center">
-        <span class="text-sm font-semibold text-gray-600">Total</span>
-        <span class="text-sm font-bold text-indigo-600">USD {{ getTotal() }}</span>
-    </div>
+        <!-- Total -->
+        <div class="total-row">
+            <span class="total-label">Total</span>
+            <span class="total-value">USD {{ getTotal() }}</span>
+        </div>
     }
 
     <!-- Empty -->
     @if (!loading() && items().length === 0) {
-    <p class="text-xs text-gray-400 text-center py-4">
-        Aún no hay productos agregados.
-    </p>
+        <p class="status-text empty-text">
+            Aún no hay productos agregados.
+        </p>
     }
-
 </div>

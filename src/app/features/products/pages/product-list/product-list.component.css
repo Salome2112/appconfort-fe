@@ -1,11 +1,11 @@
-/* Estilos de la Lista de Clientes (Sin Tailwind CSS, Nativo de PrimeNG) */
+/* Estilos de la Lista de Productos (Sin Tailwind CSS, Nativo de PrimeNG) */
 
-.client-list-container {
+.product-list-container {
   padding: 2rem;
   box-sizing: border-box;
 }
 
-.client-list-header {
+.product-list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,4 +41,8 @@
 
 .clickable-row:hover {
   background-color: #f8fafc;
+}
+
+.text-center {
+  text-align: center;
 }

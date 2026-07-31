@@ -3,12 +3,17 @@ import { ClientService } from '../../../../core/services/client.service';
 import { Client } from '../../../../shared/models/client.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Dialog } from 'primeng/dialog';
+import { InputText } from 'primeng/inputtext';
+import { Button } from 'primeng/button';
+import { SharedModule } from 'primeng/api';
 
 @Component({
     selector: 'app-customer-search-modal',
     standalone: true,
-    imports: [CommonModule, FormsModule], // Aquí importarás CommonModule o FormsModule si usas inputs de texto
+    imports: [CommonModule, FormsModule, Dialog, InputText, Button, SharedModule],
     templateUrl: './customer-search-modal.component.html',
+    styleUrl: './customer-search-modal.component.css'
 })
 export class CustomerSearchModalComponent implements OnInit {
     private clientService = inject(ClientService);
@@ -19,6 +24,7 @@ export class CustomerSearchModalComponent implements OnInit {
     clients = signal<Client[]>([]);
     loading = signal(false);
     searchText = signal('');
+    visible = signal(true);
 
     ngOnInit(): void {
         this.loadClients();

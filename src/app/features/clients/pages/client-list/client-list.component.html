@@ -1,53 +1,47 @@
-<div class="p-6">
-    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Clientes</h1>
-
-    <div class="flex justify-end mb-4">
-        <button (click)="abrirModal()"
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-            + Nuevo Cliente
-        </button>
+<div class="client-list-container">
+    <div class="client-list-header">
+        <h1 class="page-title">Clientes</h1>
+        <p-button label="Nuevo Cliente" icon="pi pi-plus" (onClick)="abrirModal()" size="small"></p-button>
     </div>
-    <!-- Loading -->
+
+    <!-- Estados de carga o error -->
     @if (loading()) {
-    <p class="text-gray-500">Cargando...</p>
+        <p class="status-text">Cargando...</p>
     }
 
-    <!-- Error -->
     @if (error) {
-    <p class="text-red-500">{{ error }}</p>
+        <p class="status-text error-text">{{ error }}</p>
     }
 
-    <!-- Tabla -->
+    <!-- Tabla de Clientes con PrimeNG -->
     @if (!loading() && clients().length > 0) {
-    <table class="w-full border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
-        <thead class="bg-gray-50 text-left text-sm text-gray-600">
-            <tr>
-                <th class="px-4 py-3">CI/RUC</th>
-                <th class="px-4 py-3">Nombre</th>
-                <th class="px-4 py-3">Email</th>
-                <th class="px-4 py-3">Ciudad</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (client of clients(); track client.id) {
-            <tr (click)="seleccionarCliente(client)" class="border-t border-gray-100 hover:bg-gray-50">
-                <td class="px-4 py-3 text-sm">{{ client.nui }}</td>
-                <td class="px-4 py-3 text-sm">{{ client.firstName }} {{ client.lastName }}</td>
-                <td class="px-4 py-3 text-sm">{{ client.email }}</td>
-                <td class="px-4 py-3 text-sm">{{ client.city }}</td>
-            </tr>
-            }
-        </tbody>
-    </table>
+        <p-table [value]="clients()" [responsiveLayout]="'scroll'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>CI/RUC</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Ciudad</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-client>
+                <tr (click)="seleccionarCliente(client)" class="clickable-row">
+                    <td>{{ client.nui }}</td>
+                    <td>{{ client.firstName }} {{ client.lastName }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.city }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
     }
 
     <!-- Sin datos -->
     @if (!loading() && clients().length === 0) {
-    <p class="text-gray-400">No hay clientes registrados.</p>
+        <p class="status-text empty-text">No hay clientes registrados.</p>
     }
 
-    <!--Mostrar modal-->
+    <!-- Mostrar modal -->
     @if (mostrarModal()) {
-    <app-client-form [cliente]="clienteSeleccionado()" (cerrar)="cerrarModal()" (guardado)="alGuardar()" />
+        <app-client-form [cliente]="clienteSeleccionado()" (cerrar)="cerrarModal()" (guardado)="alGuardar()" />
     }
 </div>

@@ -1,73 +1,56 @@
-<div class="flex-1">
-    <h2 class="text-lg font-bold text-gray-800 mb-4">Productos</h2>
+<div class="product-picker-container">
+    <h2 class="section-title">Productos</h2>
 
     <!-- Search input -->
-    <input type="text" [ngModel]="searchText()" (ngModelChange)="searchText.set($event)" placeholder="Buscarproducto..."
-        class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4" />
+    <div class="search-input-wrapper">
+        <input 
+            pInputText 
+            type="text" 
+            [ngModel]="searchText()" 
+            (ngModelChange)="searchText.set($event)" 
+            placeholder="Buscar producto..." 
+        />
+    </div>
 
     <!-- Product list -->
-    <!-- Contenedor principal cambiado a Grid Responsivo: 1 col en mobile, 2 en tablets, 3 en desktop -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="products-grid">
         @for (product of filteredProducts(); track product.id) {
-        <div
-            class="flex flex-col border border-gray-200 rounded-xl p-4 bg-white shadow-sm hover:shadow-md transition-shadow justify-between">
-
-            <!-- Contenido Superior: Imagen e Info principal -->
-            <div class="flex flex-col gap-2 mb-3">
-                <!-- Thumbnail estilizado como en el render visual -->
-                <div
-                    class="w-full h-32 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0 border border-gray-100 overflow-hidden">
+            <p-card styleClass="product-picker-card">
+                <!-- Thumbnail -->
+                <div class="product-thumbnail">
                     @if (product.imageUrl) {
-                    <img [src]="apiUrl + product.imageUrl" alt="producto" class="w-full h-full object-cover" />
+                        <img [src]="apiUrl + product.imageUrl" alt="producto" />
                     } @else {
-                    <span class="text-2xl">🛋️</span>
+                        <span class="placeholder-icon">🛋️</span>
                     }
                 </div>
 
-                <!-- Información del Mueble -->
-                <div class="line-clamp-2">
-                    <p class="text-sm font-semibold text-gray-900 truncate">{{ product.name }}</p>
-                    <p class="text-xs text-gray-400 mt-0.5">SKU: {{ product.sku }}</p>
-                    <p class="text-base font-bold text-gray-900 mt-1">${{ product.basePrice }}</p>
-                </div>
-            </div>
-
-            <!-- Contenido Inferior: Controles de cantidad y Acción principal -->
-            <div class="flex items-center gap-2 pt-2 border-t border-gray-100">
-
-                <!-- Selector de cantidad compacto -->
-                <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-gray-50 h-9">
-                    <button (click)="decrement(product.id)"
-                        class="px-2.5 text-gray-600 hover:bg-gray-200 transition font-medium text-base h-full flex items-center justify-center">
-                        −
-                    </button>
-                    <span class="px-2 text-xs font-semibold text-gray-800 min-w-[24px] text-center">
-                        {{ getQuantity(product.id) || 1 }}
-                    </span>
-                    <button (click)="increment(product.id)"
-                        class="px-2.5 text-gray-600 hover:bg-gray-200 transition font-medium text-base h-full flex items-center justify-center">
-                        +
-                    </button>
+                <!-- Info -->
+                <div class="product-picker-info">
+                    <p class="product-picker-name" [title]="product.name">{{ product.name }}</p>
+                    <p class="product-picker-sku">SKU: {{ product.sku }}</p>
+                    <p class="product-picker-price">${{ product.basePrice }}</p>
                 </div>
 
-                <!-- Botón Agregar con la estética de acento turquesa/verde del render -->
-                <button (click)="addProduct(product)"
-                    class="flex-1 h-9 px-3 bg-[#1e847f] hover:bg-[#16635f] text-white text-xs font-medium rounded-lg transition flex items-center justify-center gap-1">
-                    <span>+</span>
-                </button>
+                <!-- Controls & Action -->
+                <div class="picker-controls-row">
+                    <!-- Quantity controls -->
+                    <div class="quantity-picker-box">
+                        <button (click)="decrement(product.id)" class="qty-btn">−</button>
+                        <span class="qty-display">{{ getQuantity(product.id) || 1 }}</span>
+                        <button (click)="increment(product.id)" class="qty-btn">+</button>
+                    </div>
 
-            </div>
-
-        </div>
+                    <!-- Add Button -->
+                    <p-button icon="pi pi-plus" (onClick)="addProduct(product)" size="small"></p-button>
+                </div>
+            </p-card>
         }
 
-        <!-- Corrección sintáctica para verificar si está vacío con la señal () -->
         @if (filteredProducts().length === 0) {
-        <div class="col-span-full p-8 text-center bg-gray-50 rounded-xl border border-dashed border-gray-200">
-            <p class="text-sm text-gray-400">
-                No se encontraron productos disponibles.
-            </p>
-        </div>
+            <div class="empty-products-box">
+                <p>No se encontraron productos disponibles.</p>
+            </div>
         }
     </div>
 </div>

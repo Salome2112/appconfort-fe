@@ -1,62 +1,69 @@
-<div class="flex flex-col h-screen bg-gray-900 text-white transition-all duration-300" [class.w-64]="isExpanded()"
-    [class.w-16]="!isExpanded()">
-
-    <!-- Logo -->
-    <div class="flex items-center gap-3 px-4 py-5 border-b border-gray-700">
-        <span class="text-2xl flex-shrink-0">🪑</span>
-        @if (isExpanded()) {
-        <span class="text-sm font-bold tracking-wide whitespace-nowrap">ConfortMueble</span>
-        }
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="logo-mark">
+      <i class="pi pi-box"></i>
     </div>
+    <span class="logo-text">ConfortMueble</span>
+  </div>
 
-    <!-- Menu items -->
-    <nav class="flex flex-col gap-1 p-3 flex-1">
-        @for (item of menuItems; track item.path) {
-        <a [routerLink]="item.path" routerLinkActive="bg-gray-700 text-white" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-white
-            transition-colors">
-            <span class="text-xl flex-shrink-0">{{ item.icon }}</span>
-            @if (isExpanded()) {
-            <span class="text-sm whitespace-nowrap">{{ item.label }}</span>
-            }
-        </a>
-        }
-    </nav>
+  <!-- Menú de Navegación -->
+  <nav class="sidebar-nav">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <i class="pi pi-chart-bar"></i>
+      <span>Dashboard</span>
+    </a>
 
-    <!-- Profile & Logout -->
-    <div class="p-3 border-t border-gray-700 flex flex-col gap-1">
+    <a
+      routerLink="/clients"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <i class="pi pi-users"></i>
+      <span>Clientes</span>
+    </a>
 
-        <!-- Profile -->
-        <button
-            class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-white transition-colors">
-            <span class="text-xl flex-shrink-0">👤</span>
-            @if (isExpanded()) {
-            <div class="text-left">
-                <p class="text-sm text-white">Admin</p>
-                <p class="text-xs text-gray-500">admin@confort.com</p>
-            </div>
-            }
-        </button>
+    <a
+      routerLink="/products"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <i class="pi pi-tag"></i>
+      <span>Productos</span>
+    </a>
 
-        <!-- Logout -->
-        <button
-            class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-gray-400 hover:bg-red-600 hover:text-white transition-colors">
-            <span class="text-xl flex-shrink-0">🚪</span>
-            @if (isExpanded()) {
-            <span class="text-sm">Cerrar sesión</span>
-            }
-        </button>
+    <a
+      routerLink="/quotes"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <i class="pi pi-file"></i>
+      <span>Proformas</span>
+    </a>
+  </nav>
 
+  <!-- Footer del Sidebar -->
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="user-avatar">
+        <i class="pi pi-user"></i>
+      </div>
+      <div class="user-details">
+        <span class="user-name">Administrador</span>
+        <span class="user-role">Soporte</span>
+      </div>
     </div>
-
-    <!-- Toggle button -->
-    <div class="p-3 border-t border-gray-700">
-        <button (click)="toggle()"
-            class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-white transition-colors">
-            <span class="text-xl flex-shrink-0">{{ isExpanded() ? '«' : '»' }}</span>
-            @if (isExpanded()) {
-            <span class="text-sm">Contraer</span>
-            }
-        </button>
-    </div>
-
-</div>
+    <p-button
+      icon="pi pi-sign-out"
+      [text]="true"
+      severity="danger"
+      pTooltip="Cerrar sesión"
+      tooltipPosition="right"
+      (onClick)="logout()"
+      styleClass="logout-btn"
+    />
+  </div>
+</aside>

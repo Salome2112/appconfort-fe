@@ -2,11 +2,14 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ClientService } from '../../../../core/services/client.service';
 import { Client } from '../../../../shared/models/client.model';
 import { CommonModule } from '@angular/common';
-import { ClientFormComponent } from '../client-form/client-form.component'
+import { ClientFormComponent } from '../client-form/client-form.component';
+import { TableModule } from 'primeng/table';
+import { Button } from 'primeng/button';
+
 @Component({
     selector: 'app-client-list',
     standalone: true,
-    imports: [CommonModule, ClientFormComponent],
+    imports: [CommonModule, ClientFormComponent, TableModule, Button],
     templateUrl: './client-list.component.html',
     styleUrl: './client-list.component.css'
 })

@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { QuoteService } from '../../../../core/services/quote.service';
 import { Quote } from '../../../../shared/models/quote.model';
+import { TableModule } from 'primeng/table';
+import { Button } from 'primeng/button';
+import { Tag } from 'primeng/tag';
 
 @Component({
     selector: 'app-quote-list',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, TableModule, Button, Tag],
     templateUrl: './quote-list.component.html',
+    styleUrl: './quote-list.component.css'
 })
 export class QuoteListComponent implements OnInit {
     private quoteService = inject(QuoteService);
@@ -55,15 +59,15 @@ export class QuoteListComponent implements OnInit {
         return labels[status] ?? status;
     }
 
-    getStatusClass(status: string): string {
-        const classes: Record<string, string> = {
-            'DRAFT': 'bg-gray-100 text-gray-600',
-            'SENT': 'bg-blue-100 text-blue-600',
-            'ACCEPTED': 'bg-green-100 text-green-600',
-            'REJECTED': 'bg-red-100 text-red-600',
-            'CANCELLED': 'bg-yellow-100 text-yellow-600',
+    getStatusSeverity(status: string): 'secondary' | 'info' | 'success' | 'danger' | 'warn' {
+        const severities: Record<string, 'secondary' | 'info' | 'success' | 'danger' | 'warn'> = {
+            'DRAFT': 'secondary',
+            'SENT': 'info',
+            'ACCEPTED': 'success',
+            'REJECTED': 'danger',
+            'CANCELLED': 'warn',
         };
-        return classes[status] ?? 'bg-gray-100 text-gray-600';
+        return severities[status] ?? 'secondary';
     }
 
 

@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerSearchModalComponent } from '../../components/customer-search-modal/customer-search-modal.component';
 import { Client } from '../../../../shared/models/client.model';
@@ -10,15 +10,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductPickerComponent } from '../../components/customer-search-modal/product-picker/product-picker.component';
 import { QuoteItemsListComponent } from '../../components/quote-items-list/quote-items-list.component';
+import { Button } from 'primeng/button';
+import { Tag } from 'primeng/tag';
+import { Card } from 'primeng/card';
 
 @Component({
     selector: 'app-quote-form',
     standalone: true,
-    imports: [CustomerSearchModalComponent, CommonModule, FormsModule, ProductPickerComponent, QuoteItemsListComponent], // Empty imports for now since the header does not use any Angular directives
+    imports: [CustomerSearchModalComponent, CommonModule, FormsModule, ProductPickerComponent, QuoteItemsListComponent, Button, Tag, Card],
     templateUrl: './quote-form.component.html',
-
+    styleUrl: './quote-form.component.css'
 })
-export class QuoteFormComponent {
+export class QuoteFormComponent implements OnInit {
     private router = inject(Router);
     private quoteService = inject(QuoteService);
     private productService = inject(ProductService);

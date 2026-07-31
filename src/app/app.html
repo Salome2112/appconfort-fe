@@ -1,6 +1,15 @@
-<div class="flex h-screen">
-    <app-sidebar />
-    <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
+@if (isLoginPage()) {
+  <router-outlet />
+} @else {
+  <div class="app-layout">
+    <!-- Barra Lateral (Sidebar Component) -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+      <div class="content-wrapper">
         <router-outlet />
+      </div>
     </main>
-</div>
+  </div>
+}

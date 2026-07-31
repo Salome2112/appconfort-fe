@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuoteService } from '../../../../core/services/quote.service';
+import { Button } from 'primeng/button';
 
 interface QuoteItem {
     id: number;
@@ -17,8 +18,9 @@ interface QuoteItem {
 @Component({
     selector: 'app-quote-items-list',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, Button],
     templateUrl: './quote-items-list.component.html',
+    styleUrl: './quote-items-list.component.css'
 })
 export class QuoteItemsListComponent implements OnInit {
     private quoteService = inject(QuoteService);

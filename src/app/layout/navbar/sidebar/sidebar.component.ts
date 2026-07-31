@@ -1,29 +1,18 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
-interface MenuItem {
-    label: string;
-    path: string;
-    icon: string;
-}
+import { Button } from 'primeng/button';
+import { Tooltip } from 'primeng/tooltip';
 
 @Component({
     selector: 'app-sidebar',
     standalone: true,
-    imports: [CommonModule, RouterLink, RouterLinkActive],
+    imports: [CommonModule, RouterLink, RouterLinkActive, Button, Tooltip],
     templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-    isExpanded = signal(true);
-
-    menuItems: MenuItem[] = [
-        { label: 'Clientes', path: '/clients', icon: '👥' },
-        { label: 'Productos', path: '/products', icon: '🛋️' },
-        { label: 'Proformas', path: '/quotes', icon: '📄' },
-    ];
-
-    toggle(): void {
-        this.isExpanded.update(v => !v);
+    logout(): void {
+        console.log('Cerrar sesión clickeado');
     }
 }

@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../../../core/services/product.service';
 import { QuoteService } from '../../../../../core/services/quote.service';
 import { environment } from '../../../../../../environments/environment';
+import { InputText } from 'primeng/inputtext';
+import { Button } from 'primeng/button';
+import { Card } from 'primeng/card';
 
 export interface Product {
     id: number;
@@ -15,8 +18,9 @@ export interface Product {
 
 @Component({
     selector: 'app-product-picker',
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, InputText, Button, Card],
     templateUrl: './product-picker.component.html',
+    styleUrl: './product-picker.component.css'
 })
 export class ProductPickerComponent implements OnInit {
 

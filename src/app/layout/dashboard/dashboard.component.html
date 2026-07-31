@@ -1,0 +1,93 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="dashboard-title-area">
+      <h1 class="dashboard-title">Dashboard</h1>
+      <p class="dashboard-subtitle">Bienvenido de vuelta. Aquí está el resumen de la actividad de hoy.</p>
+    </div>
+    <div class="dashboard-actions-area">
+      <button pButton label="Descargar Reporte" icon="pi pi-download" class="p-button-outlined p-button-sm"></button>
+      <button pButton label="Nueva Cotización" icon="pi pi-plus" class="p-button-sm"></button>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    @for (stat of stats; track stat.title) {
+      <p-card styleClass="dashboard-card">
+        <div class="stat-card-content">
+          <div class="stat-info">
+            <span class="stat-title">{{ stat.title }}</span>
+            <span class="stat-value">{{ stat.value }}</span>
+          </div>
+          <div class="stat-icon-wrapper" [class]="stat.color">
+            <i [class]="stat.icon"></i>
+          </div>
+        </div>
+        <div class="stat-footer">
+          <span [class]="stat.changeType === 'increase' ? 'change-increase' : 'change-decrease'" class="stat-change">
+            {{ stat.change.split(' ')[0] }}
+          </span>
+          <span class="stat-change-label">
+            {{ stat.change.substring(stat.change.indexOf(' ') + 1) }}
+          </span>
+        </div>
+      </p-card>
+    }
+  </div>
+
+  <!-- Recent Orders & Activity Section -->
+  <div class="dashboard-content-layout">
+    <!-- Recent Orders Table -->
+    <div class="orders-section">
+      <p-card header="Cotizaciones Recientes" styleClass="dashboard-card full-height">
+        <p-table [value]="recentOrders" [responsiveLayout]="'scroll'" styleClass="p-datatable-sm">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Producto</th>
+              <th class="text-right">Monto</th>
+              <th class="text-center">Estado</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-order>
+            <tr class="table-row-hover">
+              <td class="order-id">{{ order.id }}</td>
+              <td>{{ order.client }}</td>
+              <td class="order-product">{{ order.product }}</td>
+              <td class="text-right font-semibold">${{ order.amount | number:'1.2-2' }}</td>
+              <td class="text-center">
+                <p-tag [severity]="getStatusSeverity(order.status)" [value]="order.status"></p-tag>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+    </div>
+
+    <!-- Quick Actions & Quick Note -->
+    <div class="widgets-section">
+      <p-card header="Acciones Rápidas" styleClass="dashboard-card">
+        <div class="quick-actions-list">
+          <button pButton label="Crear Cliente" icon="pi pi-user-plus" class="p-button-outlined w-full"></button>
+          <button pButton label="Ver Catálogo" icon="pi pi-images" class="p-button-outlined p-button-secondary w-full"></button>
+          <button pButton label="Configuración" icon="pi pi-cog" class="p-button-outlined p-button-secondary w-full"></button>
+        </div>
+      </p-card>
+
+      <p-card header="Notas del Equipo" styleClass="dashboard-card flex-grow">
+        <div class="team-notes-list">
+          <div class="team-note-card note-amber">
+            <p class="note-title">Reunión de Diseño</p>
+            <p class="note-description">Hoy a las 4:00 PM. Revisión del catálogo de invierno.</p>
+          </div>
+          <div class="team-note-card note-blue">
+            <p class="note-title">Actualización del Sistema</p>
+            <p class="note-description">PrimeNG integrado correctamente en el panel administrativo.</p>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

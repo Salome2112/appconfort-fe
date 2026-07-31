@@ -4,14 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../../core/services/product.service';
 import { Product, CreateProductDto, ProductCategory } from '../../../../shared/models/product.model';
 import { environment } from '../../../../../environments/environment';
+import { Dialog } from 'primeng/dialog';
+import { InputText } from 'primeng/inputtext';
+import { Button } from 'primeng/button';
+import { SharedModule } from 'primeng/api';
 
 @Component({
     selector: 'app-product-form',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, Dialog, InputText, Button, SharedModule],
     templateUrl: './product-form.component.html',
+    styleUrl: './product-form.component.css'
 })
 export class ProductFormComponent implements OnInit {
+    visible = signal(true);
     private productService = inject(ProductService);
 
     @Input() producto: Product | null = null;

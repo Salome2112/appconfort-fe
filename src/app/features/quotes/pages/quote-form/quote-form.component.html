@@ -1,81 +1,60 @@
-<div class="min-h-screen bg-gray-50 p-6">
+<div class="quote-form-container">
+    <!-- Back link button -->
+    <div class="back-link-wrapper">
+        <p-button label="Regresar a Cotizaciones" icon="pi pi-arrow-left" (onClick)="onRegresar()" [text]="true" severity="secondary" size="small"></p-button>
+    </div>
 
-    <div class="bg-white rounded-xl shadow-sm w-full max-w-7xl mx-auto p-6">
-
-        <div class="mb-4">
-            <button (click)="onRegresar()"
-                class="group inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors duration-200">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                    stroke="currentColor"
-                    class="w-4 h-4 transform group-hover:-translate-x-0.5 transition-transform duration-200">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-                <span>Cotizaciones</span>
-            </button>
-        </div>
-
-        <div class="border-b pb-4 mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">{{ isEditMode() ? 'Editar Cotización' : 'Nueva Cotización' }}
-            </h1>
-            <div class="flex items-center justify-between mt-2">
-                @if (quoteId()) {
-                <span class="text-xs bg-yellow-100 text-yellow-800 font-medium px-2.5 py-0.5 rounded-full">
-                    Borrador ID: #{{ quoteId() }}
-                </span>
-                }
-                @if (quoteId()) {
-                <button
-                    class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition">
-                    Confirmar Cotización
-                </button>
-                }
-            </div>
-        </div>
-
-        <div class="bg-gray-50 p-4 rounded-xl mb-6 border border-gray-100">
-            <h2 class="text-sm font-semibold text-gray-600 mb-3">Información del Cliente</h2>
-
-
-            @if (!selectedClient()) {
-            <button (click)="openClientSearch()"
-                class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
-                Seleccionar Cliente
-            </button>
-            } @else {
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="font-medium text-gray-800">{{ selectedClient()?.firstName }} {{ selectedClient()?.lastName
-                        }}
-                    </p>
-
-                </div>
-                <span class="text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded">Asociado</span>
-            </div>
+    <!-- Header Section -->
+    <div class="quote-form-header">
+        <h1 class="page-title">{{ isEditMode() ? 'Editar Cotización' : 'Nueva Cotización' }}</h1>
+        
+        <div class="header-status-actions">
+            @if (quoteId()) {
+                <p-tag severity="warn" [value]="'Borrador ID: #' + quoteId()"></p-tag>
+            }
+            @if (quoteId()) {
+                <p-button label="Confirmar Cotización" icon="pi pi-check" severity="success" size="small"></p-button>
             }
         </div>
+    </div>
 
-        @if (quote()) {
-        <div class="border-t pt-6">
-            <div class="flex gap-6">
-                <div class="w-1/2">
-                    <app-product-picker [quoteId]="quote()!.id" (productAdded)="quoteItemsList.loadItems()" />
+    <!-- Client Selection Box -->
+    <p-card styleClass="info-card">
+        <h2 class="section-title">Información del Cliente</h2>
+        
+        <div class="client-selection-area">
+            @if (!selectedClient()) {
+                <p-button label="Seleccionar Cliente" icon="pi pi-user-plus" (onClick)="openClientSearch()" size="small"></p-button>
+            } @else {
+                <div class="associated-client-row">
+                    <p class="client-name">{{ selectedClient()?.firstName }} {{ selectedClient()?.lastName }}</p>
+                    <p-tag severity="success" value="Asociado"></p-tag>
                 </div>
-                <div class="w-1/2">
-                    <app-quote-items-list #quoteItemsList [quoteId]="quote()!.id" />
-                </div>
+            }
+        </div>
+    </p-card>
+
+    <!-- Products and Items List -->
+    @if (quote()) {
+        <div class="quote-builder-layout">
+            <div class="picker-panel">
+                <app-product-picker [quoteId]="quote()!.id" (productAdded)="quoteItemsList.loadItems()" />
+            </div>
+            <div class="items-list-panel">
+                <app-quote-items-list #quoteItemsList [quoteId]="quote()!.id" />
             </div>
         </div>
-        }@else {
-        <div class="text-center py-8 bg-gray-50 text-gray-400 rounded-xl border">
-            ⚠️ Por favor selecciona un cliente para comenzar a añadir productos.
+    } @else {
+        <div class="select-client-reminder">
+            <i class="pi pi-info-circle"></i>
+            <span>Por favor selecciona un cliente para comenzar a añadir productos.</span>
         </div>
-        }
+    }
 
-        @if (isOpenClientSearch()) {
+    <!-- Dialog / Modal -->
+    @if (isOpenClientSearch()) {
         <app-customer-search-modal (customerSelected)="onClientSelected($event)"
             (closeModal)="isOpenClientSearch.set(false)">
         </app-customer-search-modal>
-        }
-
-    </div>
+    }
 </div>

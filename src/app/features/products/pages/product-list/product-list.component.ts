@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { ProductService } from '../../../../core/services/product.service';
 import { Product } from '../../../../shared/models/product.model';
 import { ProductFormComponent } from '../product-form/product-form.component';
+import { TableModule } from 'primeng/table';
+import { Button } from 'primeng/button';
+import { Tag } from 'primeng/tag';
 
 @Component({
     selector: 'app-product-list',
     standalone: true,
-    imports: [CommonModule, ProductFormComponent],
+    imports: [CommonModule, ProductFormComponent, TableModule, Button, Tag],
     templateUrl: './product-list.component.html',
+    styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit {
     private productService = inject(ProductService);
