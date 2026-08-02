@@ -1,0 +1,54 @@
+<div class="sales-order-card">
+  <div class="card-header">
+    <i class="pi pi-file-edit header-icon"></i>
+    <h3>Detalles del Pedido</h3>
+  </div>
+  <div class="card-body">
+    <table class="details-table">
+      <tbody>
+        <tr>
+          <td class="label-col">Número de Orden</td>
+          <td class="value-col font-mono">{{ salesOrder()?.number || 'N/A' }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Estado</td>
+          <td class="value-col">
+            @if (salesOrder()?.status) {
+              <p-tag [severity]="getStatusSeverity(salesOrder().status)" [value]="getStatusLabel(salesOrder().status)" [rounded]="true"></p-tag>
+            } @else {
+              <span class="text-muted">N/A</span>
+            }
+          </td>
+        </tr>
+        <tr>
+          <td class="label-col">Total Proforma</td>
+          <td class="value-col highlight-amount">{{ salesOrder()?.quoteTotal | currency }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Saldo Pendiente</td>
+          <td class="value-col highlight-balance">{{ salesOrder()?.pendingBalance | currency }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Fecha de Creación</td>
+          <td class="value-col">{{ salesOrder()?.orderDate | date:'dd/MM/yyyy HH:mm' }}</td>
+        </tr>
+        <tr>
+          <td class="label-col">Fecha Compromiso</td>
+          <td class="value-col">
+            @if (salesOrder()?.agreedDeliveryDate) {
+              {{ salesOrder()?.agreedDeliveryDate | date:'dd/MM/yyyy' }}
+            } @else {
+              <span class="text-muted italic">Sin definir</span>
+            }
+          </td>
+        </tr>
+        @if (salesOrder()?.notes) {
+          <tr>
+            <td class="label-col">Notas</td>
+            <td class="value-col notes-text">{{ salesOrder().notes }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="custom-stepper-container">
+  <div class="stepper-steps">
+    @for (step of steps(); track step.key; let idx = $index) {
+      <div 
+        class="stepper-step" 
+        [class.active]="idx === activeIndex()"
+        [class.completed]="idx < activeIndex()"
+        [class.disabled]="step.disabled"
+        (click)="!step.disabled && selectStep(idx)"
+      >
+        <span class="step-label">{{ step.label }}</span>
+        @if (step.badge) {
+          <span [class]="'custom-badge ' + (step.badgeSeverity || 'info')">
+            <i class="pi pi-tag" style="font-size: 0.6rem; margin-right: 0.25rem;"></i>
+            {{ step.badge }}
+          </span>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="order-shell-container">
+  <p-toast></p-toast>
+  <!-- Cabecera de la sección -->
+  <div class="order-shell-header">
+    <div class="order-meta-info"
+      style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+      <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <span class="meta-item"><strong>Pedido:</strong> #{{ orderId() }}</span>
+        <span class="meta-divider">|</span>
+        <span class="meta-item"><strong>Cliente:</strong> {{ selectedClient() ? (selectedClient()!.firstName + ' ' +
+          selectedClient()!.lastName) : 'Sin Asignar' }}</span>
+        @if (selectedClient()) {
+        <span class="meta-divider">|</span>
+        <span class="meta-item"><strong>Mueble:</strong> {{ productName() }}</span>
+        }
+      </div>
+      @if (!selectedClient()) {
+      <p-button label="Seleccionar Cliente" icon="pi pi-user-plus" (onClick)="openClientSearch()"
+        size="small"></p-button>
+      }
+    </div>
+  </div>
+
+  <!-- Barra de Pasos de Progreso -->
+  <app-custom-stepper [steps]="customSteps()" [(activeIndex)]="currentStepIndex"></app-custom-stepper>
+
+  <!-- Contenedor de Componente Dinámico según Paso -->
+  <div class="step-content-card">
+    @switch (currentStepIndex()) {
+    @case (0) {
+    <div class="step-quote-content" style="padding: 0 2rem;">
+      <app-order-quote-step></app-order-quote-step>
+    </div>
+    }
+    @case (1) {
+    <div class="step-payment-content" style="padding: 0 2rem;">
+      <app-order-liquidaciones [quoteId]="quoteId()" (salesOrderLoaded)="onSalesOrderLoaded($event)"></app-order-liquidaciones>
+    </div>
+    }
+    @case (2) {
+    <div class="step-placeholder">
+      <i class="pi pi-cog placeholder-icon spinner-icon"></i>
+      <h3>Paso 3: Fábrica / Taller</h3>
+      <p>Estado del proceso de manufactura y órdenes de producción de carpintería y tapicería.</p>
+    </div>
+    }
+    }
+  </div>
+
+  <!-- Footer con Acción Principal -->
+  <div class="order-shell-footer">
+    <div class="footer-navigation">
+      <p-button label="Anterior" icon="pi pi-chevron-left" (onClick)="prevStep()" [disabled]="currentStepIndex() === 0"
+        [outlined]="true" severity="secondary" size="small"></p-button>
+    </div>
+
+    <!-- Muestra el total si estamos en el paso de liquidación (índice 1) -->
+    @if (currentStepIndex() === 1) {
+    <div class="footer-middle">
+      <span class="balance-label">Total a Pagar:</span>
+      <span class="balance-value">{{ total() | currency }}</span>
+    </div>
+    }
+
+    <div class="footer-actions">
+      @if (currentStepIndex() === 1) {
+      <p-splitbutton [label]="selectedPaymentMethod()" [model]="paymentActionItems" severity="success" size="small"
+        (onClick)="onConfirmarPago()"></p-splitbutton>
+      } @else {
+      <p-splitbutton label="Aprobar Proforma" [model]="confirmActionItems" severity="primary" size="small"
+        (onClick)="onConfirmar()"></p-splitbutton>
+      }
+    </div>
+  </div>
+
+  <!-- Modal de búsqueda de clientes -->
+  @if (isOpenClientSearch()) {
+  <app-customer-search-modal (customerSelected)="onClientSelected($event)" (closeModal)="isOpenClientSearch.set(false)">
+  </app-customer-search-modal>
+  }
+</div>

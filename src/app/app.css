@@ -4,13 +4,53 @@
   overflow: hidden;
 }
 
+app-sidebar {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  width: 260px;
+  flex-shrink: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.sidebar-hidden app-sidebar {
+  width: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .main-content {
   flex: 1;
   overflow-y: auto;
   background-color: #f8fafc;
+  position: relative;
+}
+
+.sidebar-toggle-btn {
+  position: absolute !important;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+  transition: transform 0.2s ease, background-color 0.2s ease !important;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-toggle-btn:hover {
+  transform: scale(1.05);
+  background: #ffffff !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .content-wrapper {
   min-height: 100%;
   box-sizing: border-box;
+  padding-left: 4.5rem; /* Deja espacio para el botón de toggle flotante */
 }
+

@@ -1,0 +1,39 @@
+<div class="order-quote-step-container">
+    <!-- Products and Items List -->
+    @if (quote()) {
+    <div class="quote-builder-layout">
+        <div class="picker-panel" style="display: flex; justify-content: flex-end; width: 100%;">
+            <p-button label="Seleccionar Productos" icon="pi pi-plus" (onClick)="openProductSearch()"
+                size="small"></p-button>
+        </div>
+        <div class="items-list-panel">
+            <app-quote-items-list #quoteItemsList [quoteId]="quote()!.id"></app-quote-items-list>
+        </div>
+    </div>
+    } @else {
+    <div class="select-client-reminder">
+        <i class="pi pi-info-circle"></i>
+        <span>Por favor selecciona un cliente para comenzar a añadir productos al pedido.</span>
+    </div>
+    }
+
+    <!-- Dialog / Modal de Clientes -->
+    @if (isOpenClientSearch()) {
+    <app-customer-search-modal (customerSelected)="onClientSelected($event)"
+        (closeModal)="isOpenClientSearch.set(false)">
+    </app-customer-search-modal>
+    }
+
+    <!-- Dialog / Modal de Productos -->
+    <p-dialog header="Seleccionar Productos" [visible]="isOpenProductSearch()"
+        (visibleChange)="isOpenProductSearch.set($event)" [modal]="true" [style]="{ width: '800px' }"
+        [draggable]="false" [resizable]="false">
+        @if (quote()) {
+        <app-product-picker [quoteId]="quote()!.id" (productAdded)="onProductAdded()"></app-product-picker>
+        }
+        <ng-template pTemplate="footer">
+            <p-button label="Cerrar" severity="secondary" [text]="true"
+                (onClick)="isOpenProductSearch.set(false)"></p-button>
+        </ng-template>
+    </p-dialog>
+</div>

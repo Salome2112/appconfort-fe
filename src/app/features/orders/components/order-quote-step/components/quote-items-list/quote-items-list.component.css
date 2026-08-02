@@ -1,0 +1,62 @@
+/* Estilos de la Lista de Items Agregados (Sin Tailwind) */
+
+.quote-items-container {
+  width: 100%;
+  background-color: #f8fafc;
+  /* Slate 50 */
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  height: fit-content;
+}
+
+.section-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 1rem 0;
+}
+
+.status-text {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.75rem;
+  padding: 1rem 0;
+}
+
+/* Table styling override */
+:host ::ng-deep .p-datatable {
+  margin-bottom: 1.25rem;
+}
+
+/* Total */
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #cbd5e1;
+  padding-top: 1rem;
+}
+
+.total-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.total-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+/* Mensaje vacío */
+.empty-text {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  padding: 1rem 0;
+}

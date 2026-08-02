@@ -30,4 +30,8 @@ export class QuoteService {
     getById(id: number): Observable<Quote> {
         return this.http.get<Quote>(`${this.baseUrl}/${id}`);
     }
+
+    updateStatus(id: number, status: string): Observable<Quote> {
+        return this.http.patch<Quote>(`${this.baseUrl}/${id}/status`, { status });
+    }
 }

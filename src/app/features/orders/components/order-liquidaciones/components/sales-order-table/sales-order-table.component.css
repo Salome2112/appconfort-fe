@@ -1,0 +1,97 @@
+.sales-order-card {
+  background: var(--surface-card, #ffffff);
+  border: 1px solid var(--surface-border, #e2e8f0);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  height: 100%;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid var(--surface-border, #e2e8f0);
+}
+
+.header-icon {
+  font-size: 1.25rem;
+  color: var(--primary-color, #3b82f6);
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color, #1e293b);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.details-table tr {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.details-table tr:last-child {
+  border-bottom: none;
+}
+
+.label-col {
+  padding: 1rem 0;
+  font-weight: 500;
+  color: #64748b;
+  width: 40%;
+  font-size: 0.925rem;
+}
+
+.value-col {
+  padding: 1rem 0;
+  color: #1e293b;
+  font-size: 0.925rem;
+  text-align: right;
+}
+
+.font-mono {
+  font-family: monospace;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.highlight-amount {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.highlight-balance {
+  font-weight: 700;
+  color: #ef4444;
+}
+
+.notes-text {
+  text-align: left;
+  font-style: italic;
+  color: #475569;
+  background-color: #f8fafc;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.text-muted {
+  color: #94a3b8;
+}
+
+.italic {
+  font-style: italic;
+}

@@ -1,0 +1,232 @@
+.order-shell-container {
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.order-shell-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+.order-meta-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.meta-divider {
+  color: #cbd5e1;
+}
+
+.steps-wrapper {
+  background-color: #ffffff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Customizing PrimeNG Steps visual indicator */
+:host ::ng-deep .p-steps .p-steps-item {
+  background: transparent !important;
+  border: none !important;
+}
+
+.step-content-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  min-height: 400px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.step-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #64748b;
+  height: 100%;
+}
+
+.placeholder-icon {
+  font-size: 3.5rem;
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+}
+
+.spinner-icon {
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.step-placeholder h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.step-placeholder p {
+  max-width: 480px;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Sección del Cliente */
+.step-payment-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.client-selection-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.client-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.client-selection-area {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.associated-client-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.client-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* Tarjeta informativa */
+:host ::ng-deep .info-card.p-card {
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc;
+  box-shadow: none;
+}
+
+:host ::ng-deep .info-card.p-card .p-card-body {
+  padding: 1.25rem;
+}
+
+.payment-details-panel {
+  margin-top: 0.5rem;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+}
+
+.payment-summary-box h4 {
+  margin: 0 0 0.5rem 0;
+  color: #0f172a;
+}
+
+.payment-summary-box p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* Sticky Footer */
+.order-shell-footer {
+  position: sticky;
+  bottom: 1rem;
+  /* Deja un pequeño margen para que se vea flotante con bordes redondeados */
+  z-index: 1000;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.08);
+  margin-top: auto;
+  border: 1px solid #e2e8f0;
+}
+
+.footer-navigation {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.footer-middle {
+  display: flex;
+  align-items: center;
+}
+
+.balance-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-right: 0.5rem;
+}
+
+.balance-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.footer-actions {
+  display: flex;
+  gap: 0.5rem;
+}

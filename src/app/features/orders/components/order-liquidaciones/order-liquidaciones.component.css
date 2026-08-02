@@ -1,0 +1,65 @@
+.liquidaciones-container {
+  width: 100%;
+  padding: 1.5rem 0;
+}
+
+.tables-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: stretch;
+}
+
+.table-column {
+  flex: 1 1 50%;
+  max-width: calc(50% - 0.75rem);
+}
+
+.loading-state, .error-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+}
+
+.spinner-icon {
+  font-size: 2rem;
+  color: var(--primary-color, #3b82f6);
+  margin-bottom: 1rem;
+}
+
+.error-icon {
+  font-size: 2.5rem;
+  color: #ef4444;
+  margin-bottom: 1rem;
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.loading-state p, .error-state p, .empty-state p {
+  margin: 0;
+  font-size: 1rem;
+  color: #475569;
+}
+
+/* Responsiveness: stack on small screens */
+@media (max-width: 768px) {
+  .tables-wrapper {
+    flex-direction: column;
+  }
+  
+  .table-column {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}

@@ -37,4 +37,5 @@ export interface Quote {
     updatedAt: string;
     client: Client;
     items: QuoteItem[];
+    salesOrder?: any;
 }
