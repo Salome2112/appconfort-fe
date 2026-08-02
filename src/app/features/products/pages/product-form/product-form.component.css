@@ -161,3 +161,25 @@
   display: flex;
   gap: 0.5rem;
 }
+
+/* Custom Toggle Switch Styles */
+.switch input:checked + .slider {
+  background-color: #22c55e;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .2s;
+  border-radius: 50%;
+}
+

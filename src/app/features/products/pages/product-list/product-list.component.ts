@@ -61,4 +61,16 @@ export class ProductListComponent implements OnInit {
         this.productoSeleccionado.set(null);
         this.loadProducts();
     }
+
+    getCategoryLabel(category: string): string {
+        const labels: Record<string, string> = {
+            'LIVING_ROOM': 'Sala de Estar',
+            'DINING_ROOM': 'Comedor',
+            'BEDROOM': 'Dormitorio',
+            'OFFICE': 'Oficina',
+            'OUTDOOR': 'Exterior',
+            'OTHER': 'Otro'
+        };
+        return labels[category] ?? category;
+    }
 }

@@ -37,9 +37,41 @@ export class ProductFormComponent implements OnInit {
         name: '',
         description: '',
         category: 'OTHER',
-        basePrice: 0,
+        materialCost: 0,
+        laborCost: 0,
+        overheadCost: 0,
+        profitMargin: 0,
+        taxRate: 0,
+        finalPrice: 0,
         isActive: true,
     };
+
+    getCategoryLabel(category: string): string {
+        const labels: Record<string, string> = {
+            'LIVING_ROOM': 'Sala de Estar',
+            'DINING_ROOM': 'Comedor',
+            'BEDROOM': 'Dormitorio',
+            'OFFICE': 'Oficina',
+            'OUTDOOR': 'Exterior',
+            'OTHER': 'Otro'
+        };
+        return labels[category] ?? category;
+    }
+
+    calculatePrice(): void {
+        const material = Number(this.formData.materialCost) || 0;
+        const labor = Number(this.formData.laborCost) || 0;
+        const overhead = Number(this.formData.overheadCost) || 0;
+        const margin = Number(this.formData.profitMargin) || 0;
+        const tax = Number(this.formData.taxRate) || 0;
+
+        const subtotal = material + labor + overhead;
+        const profit = subtotal * (margin / 100);
+        const beforeTax = subtotal + profit;
+        const final = beforeTax * (1 + tax / 100);
+
+        this.formData.finalPrice = Math.round((final + Number.EPSILON) * 100) / 100;
+    }
 
     ngOnInit(): void {
         if (this.producto) {
@@ -49,11 +81,14 @@ export class ProductFormComponent implements OnInit {
                 name: this.producto.name,
                 description: this.producto.description ?? '',
                 category: this.producto.category,
-                basePrice: this.producto.basePrice,
+                materialCost: this.producto.materialCost,
                 laborCost: this.producto.laborCost,
+                overheadCost: this.producto.overheadCost,
                 profitMargin: this.producto.profitMargin,
+                taxRate: this.producto.taxRate,
+                finalPrice: this.producto.finalPrice,
                 isActive: this.producto.isActive,
-                imageUrl: `${environment.apiUrl}${this.producto.imageUrl}`
+                imageUrl: this.producto.imageUrl ? `${environment.apiUrl}${this.producto.imageUrl}` : undefined
             };
         }
     }

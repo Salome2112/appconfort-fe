@@ -29,8 +29,8 @@
                 <tr (click)="seleccionarProducto(product)" class="clickable-row">
                     <td>{{ product.sku }}</td>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.category }}</td>
-                    <td>${{ product.basePrice | number:'1.2-2' }}</td>
+                    <td>{{ getCategoryLabel(product.category) }}</td>
+                    <td>${{ product.finalPrice | number:'1.2-2' }}</td>
                     <td class="text-center">
                         <p-tag [severity]="product.isActive ? 'success' : 'danger'" [value]="product.isActive ? 'Activo' : 'Inactivo'"></p-tag>
                     </td>

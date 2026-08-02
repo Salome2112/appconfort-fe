@@ -6,11 +6,14 @@ export interface Product {
     name: string;
     description?: string;
     category: ProductCategory;
-    basePrice: number;
-    laborCost?: number;
-    profitMargin?: number;
     imageUrl?: string;
     isActive: boolean;
+    materialCost: number;
+    laborCost: number;
+    overheadCost: number;
+    profitMargin: number;
+    taxRate: number;
+    finalPrice: number;
     createdAt?: string;
     updatedAt?: string;
 }
@@ -20,11 +23,14 @@ export interface CreateProductDto {
     name: string;
     description?: string;
     category?: ProductCategory;
-    basePrice: number;
-    laborCost?: number;
-    profitMargin?: number;
     imageUrl?: string;
     isActive?: boolean;
+    materialCost: number;
+    laborCost: number;
+    overheadCost: number;
+    profitMargin: number;
+    taxRate: number;
+    finalPrice: number;
 }
 
 export type UpdateProductDto = Partial<CreateProductDto>;

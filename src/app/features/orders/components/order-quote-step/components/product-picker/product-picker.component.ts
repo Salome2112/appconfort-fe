@@ -13,7 +13,7 @@ export interface Product {
     sku: string;
     name: string;
     imageUrl?: string;
-    basePrice: number;
+    finalPrice: number;
 }
 
 @Component({
@@ -29,13 +29,13 @@ export class ProductPickerComponent implements OnInit {
     searchText = signal('');
     private productService = inject(ProductService);
     private quoteService = inject(QuoteService);
-    products = signal<Product[]>([]);
+    products = signal<any[]>([]);
     quoteId = input.required<number>();
     apiUrl = environment.apiUrl;
 
     ngOnInit(): void {
         this.productService.getAll().subscribe({
-            next: (data) => this.products.set(data.filter(p => p.isActive))
+            next: (data) => this.products.set(data.filter((p: any) => p.isActive))
         });
     }
 
@@ -52,7 +52,7 @@ export class ProductPickerComponent implements OnInit {
         this.quoteService.addItem(this.quoteId(), {
             productId: product.id,
             quantity: this.getQuantity(product.id),
-            unitPrice: product.basePrice
+            unitPrice: product.finalPrice
         }).subscribe({
             next: () => this.productAdded.emit(),
             error: (err) => console.error('Error adding item:', err)

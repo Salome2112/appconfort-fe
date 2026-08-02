@@ -1,88 +1,127 @@
 <p-dialog 
-  [header]="esEdicion() ? 'Editar Producto' : 'Nuevo Producto'" 
+  [header]="esEdicion() ? 'Editar Producto' : 'Crear Nuevo Producto Mueble'" 
   [visible]="visible()" 
   (visibleChange)="onCerrar()"
   [modal]="true" 
-  [style]="{ width: '520px' }" 
+  [style]="{ width: '680px' }" 
   [draggable]="false" 
   [resizable]="false"
 >
   <div class="product-form-layout">
-    <!-- Row 1: Image & Basic fields -->
-    <div class="image-fields-row">
-      <!-- Image Upload Col -->
-      <div class="image-upload-col">
-        <div class="image-preview-box">
+    
+
+    <!-- SECCIÓN 1: INFORMACIÓN GENERAL CON IMAGEN A LA IZQUIERDA -->
+    <div class="general-info-container" style="display: flex; gap: 1.5rem; margin-bottom: 1rem; align-items: flex-start;">
+      
+      <!-- Columna Izquierda: Imagen (Cuadrado) y Botón Debajo -->
+      <div class="image-upload-column" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: 130px; flex-shrink: 0;">
+        <div class="image-preview-box" style="width: 130px; height: 130px; border-radius: 8px; background-color: #f1f5f9; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; overflow: hidden;">
           @if (imagePreview()) {
-            <img [src]="imagePreview()" alt="preview" />
+            <img [src]="imagePreview()" alt="preview" style="width: 100%; height: 100%; object-fit: cover;" />
           } @else if (formData.imageUrl) {
-            <img [src]="formData.imageUrl" alt="producto" />
+            <img [src]="formData.imageUrl" alt="producto" style="width: 100%; height: 100%; object-fit: cover;" />
           } @else {
-            <span class="placeholder-icon">🛋️</span>
+            <span class="placeholder-icon" style="font-size: 2.5rem;">🛋️</span>
           }
         </div>
 
         @if (isUploadingImage()) {
-          <span class="uploading-text">Subiendo...</span>
+          <span class="uploading-text" style="font-size: 0.75rem; color: #64748b;"><i class="pi pi-spin pi-spinner"></i> Subiendo...</span>
         } @else {
-          <label class="upload-label">
+          <label class="custom-upload-btn" style="font-size: 0.825rem; font-weight: 600; color: #2563eb; cursor: pointer; transition: color 0.2s; white-space: nowrap; text-align: center; text-decoration: underline;">
             Cargar foto
-            <input type="file" accept="image/*" class="file-input-hidden" (change)="onImageSelected($event)" />
+            <input type="file" accept="image/*" class="file-input-hidden" (change)="onImageSelected($event)" style="display: none;" />
           </label>
         }
       </div>
 
-      <!-- Basic fields Col -->
-      <div class="basic-fields-col">
-        <div class="field-group">
-          <label for="sku">SKU</label>
-          <input pInputText id="sku" [(ngModel)]="formData.sku" placeholder="SOFA-3P-GRS" [disabled]="esEdicion()" />
+      <!-- Columna Derecha: Campos Generales -->
+      <div class="general-fields-column" style="flex: 1; display: flex; flex-direction: column; gap: 0.75rem;">
+        
+        <!-- Nombre del Producto -->
+        <div class="field-group" style="width: 100%;">
+          <label for="name">* Nombre del Producto:</label>
+          <input pInputText id="name" [(ngModel)]="formData.name" placeholder="Ej: Sofá Venecia 3 Puestos" style="width: 100%;" required />
         </div>
 
-        <div class="field-group">
-          <label for="name">Nombre</label>
-          <input pInputText id="name" [(ngModel)]="formData.name" placeholder="Sofá 3 Puestos Gris" />
+        <!-- SKU, Categoría, Estado Inicial -->
+        <div class="general-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+          <div class="field-group">
+            <label for="sku">* SKU:</label>
+            <input pInputText id="sku" [(ngModel)]="formData.sku" placeholder="SOF-VEN-001" [disabled]="esEdicion()" required style="width: 100%;" />
+          </div>
+
+          <div class="field-group">
+            <label for="category">* Categoría:</label>
+            <select id="category" [(ngModel)]="formData.category" class="custom-select" required style="width: 100%;">
+              <option [value]="undefined" disabled selected>Categoría</option>
+              @for (cat of categorias; track cat) {
+                <option [value]="cat">{{ getCategoryLabel(cat) }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>&nbsp;</label>
+            <div class="checkbox-group" style="display: flex; align-items: center; gap: 0.5rem; height: 38px;">
+              <input 
+                type="checkbox" 
+                id="isActive" 
+                [(ngModel)]="formData.isActive" 
+                style="width: 1.1rem; height: 1.1rem; cursor: pointer; margin: 0;"
+              />
+              <label for="isActive" style="font-size: 0.875rem; font-weight: 600; color: #475569; cursor: pointer; margin: 0; user-select: none;">
+                Activo
+              </label>
+            </div>
+          </div>
         </div>
 
-        <div class="field-group">
-          <label for="category">Categoría</label>
-          <select id="category" [(ngModel)]="formData.category" class="custom-select">
-            @for (cat of categorias; track cat) {
-              <option [value]="cat">{{ cat }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="checkbox-group">
-          <input [(ngModel)]="formData.isActive" type="checkbox" id="isActive" />
-          <label for="isActive">Producto activo</label>
-        </div>
       </div>
     </div>
 
-    <!-- Description field -->
-    <div class="field-group">
-      <label for="description">Descripción</label>
-      <textarea id="description" [(ngModel)]="formData.description" placeholder="Descripción del producto" rows="2" class="custom-textarea"></textarea>
+    <!-- Descripción (Opcional) -->
+    <div class="field-group" style="margin-bottom: 0.5rem;">
+      <label for="description">Descripción (Opcional):</label>
+      <textarea id="description" [(ngModel)]="formData.description" placeholder="Escribe las especificaciones, materiales principales, medidas básicas..." rows="2" class="custom-textarea"></textarea>
     </div>
 
-    <!-- Financial fields -->
-    <div class="financials-row">
+
+    <div class="costos-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
       <div class="field-group">
-        <label for="basePrice">Precio Base</label>
-        <input pInputText id="basePrice" type="number" [(ngModel)]="formData.basePrice" placeholder="0.00" />
+        <label for="materialCost">* Costo Materiales ($):</label>
+        <input pInputText id="materialCost" type="number" [(ngModel)]="formData.materialCost" (ngModelChange)="calculatePrice()" placeholder="0.00" required />
       </div>
 
       <div class="field-group">
-        <label for="laborCost">Mano de Obra</label>
-        <input pInputText id="laborCost" type="number" [(ngModel)]="formData.laborCost" placeholder="0.00" />
+        <label for="laborCost">* Mano de Obra ($):</label>
+        <input pInputText id="laborCost" type="number" [(ngModel)]="formData.laborCost" (ngModelChange)="calculatePrice()" placeholder="0.00" required />
       </div>
 
       <div class="field-group">
-        <label for="profitMargin">Ganancia %</label>
-        <input pInputText id="profitMargin" type="number" [(ngModel)]="formData.profitMargin" placeholder="0.00" />
+        <label for="overheadCost">* Costos Indirectos CIF ($):</label>
+        <input pInputText id="overheadCost" type="number" [(ngModel)]="formData.overheadCost" (ngModelChange)="calculatePrice()" placeholder="0.00" required />
       </div>
     </div>
+
+
+    <div class="margen-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; align-items: end;">
+      <div class="field-group">
+        <label for="profitMargin">* Margen Ganancia (%):</label>
+        <input pInputText id="profitMargin" type="number" [(ngModel)]="formData.profitMargin" (ngModelChange)="calculatePrice()" placeholder="30.00" required />
+      </div>
+
+      <div class="field-group">
+        <label for="taxRate">* Tasa Impuesto / IVA (%):</label>
+        <input pInputText id="taxRate" type="number" [(ngModel)]="formData.taxRate" (ngModelChange)="calculatePrice()" placeholder="15" required />
+      </div>
+
+      <div class="field-group">
+        <label for="finalPrice" style="font-weight: 600;">* Precio Final ($):</label>
+        <input pInputText id="finalPrice" type="number" [(ngModel)]="formData.finalPrice" placeholder="0.00" required />
+      </div>
+    </div>
+
   </div>
 
   <ng-template pTemplate="footer">
@@ -94,7 +133,7 @@
       }
       <div class="actions-right">
         <p-button label="Cancelar" severity="secondary" [text]="true" (onClick)="onCerrar()"></p-button>
-        <p-button label="Guardar" severity="primary" (onClick)="onGuardar()"></p-button>
+        <p-button [label]="esEdicion() ? 'Guardar Cambios' : 'Guardar Mueble'" severity="primary" (onClick)="onGuardar()"></p-button>
       </div>
     </div>
   </ng-template>
