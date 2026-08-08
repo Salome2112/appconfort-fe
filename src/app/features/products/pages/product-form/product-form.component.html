@@ -87,38 +87,51 @@
     </div>
 
 
-    <div class="costos-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+    <div class="costos-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem;">
       <div class="field-group">
-        <label for="materialCost">* Costo Materiales ($):</label>
+        <label for="materialCost">* Materiales ($):</label>
         <input pInputText id="materialCost" type="number" [(ngModel)]="formData.materialCost" (ngModelChange)="calculatePrice()" placeholder="0.00" required />
       </div>
 
       <div class="field-group">
-        <label for="laborCost">* Mano de Obra ($):</label>
+        <label for="laborCost">* Mano Obra ($):</label>
         <input pInputText id="laborCost" type="number" [(ngModel)]="formData.laborCost" (ngModelChange)="calculatePrice()" placeholder="0.00" required />
       </div>
 
       <div class="field-group">
-        <label for="overheadCost">* Costos Indirectos CIF ($):</label>
+        <label for="overheadCost">* Indirectos ($):</label>
         <input pInputText id="overheadCost" type="number" [(ngModel)]="formData.overheadCost" (ngModelChange)="calculatePrice()" placeholder="0.00" required />
+      </div>
+
+      <div class="field-group">
+        <label for="profitMargin">* Margen (%):</label>
+        <input pInputText id="profitMargin" type="number" [(ngModel)]="formData.profitMargin" (ngModelChange)="calculatePrice()" placeholder="30.00" required />
       </div>
     </div>
 
 
-    <div class="margen-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; align-items: end;">
+    <div class="margen-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: end;">
       <div class="field-group">
-        <label for="profitMargin">* Margen Ganancia (%):</label>
-        <input pInputText id="profitMargin" type="number" [(ngModel)]="formData.profitMargin" (ngModelChange)="calculatePrice()" placeholder="30.00" required />
+        <label for="basePrice" style="font-weight: 600;">* P. Base ($):</label>
+        <input pInputText id="basePrice" type="number" [(ngModel)]="formData.basePrice" placeholder="0.00" [readonly]="true" required />
       </div>
 
       <div class="field-group">
-        <label for="taxRate">* Tasa Impuesto / IVA (%):</label>
-        <input pInputText id="taxRate" type="number" [(ngModel)]="formData.taxRate" (ngModelChange)="calculatePrice()" placeholder="15" required />
+        <label for="taxRate">* IVA (%):</label>
+        <select id="taxRate" [(ngModel)]="formData.taxRate" (ngModelChange)="calculatePrice()" class="custom-select" required style="width: 100%;">
+          @for (rate of tasasIva; track rate) {
+            <option [value]="rate">{{ rate }}%</option>
+          }
+        </select>
       </div>
 
       <div class="field-group">
-        <label for="finalPrice" style="font-weight: 600;">* Precio Final ($):</label>
-        <input pInputText id="finalPrice" type="number" [(ngModel)]="formData.finalPrice" placeholder="0.00" required />
+        <label for="finalPrice" style="font-weight: 600;">* P. Final ($):</label>
+        <input pInputText id="finalPrice" type="number" [(ngModel)]="formData.finalPrice" placeholder="0.00" [readonly]="true" required />
+      </div>
+
+      <div class="field-group" style="margin-bottom: 2px;">
+        <p-button icon="pi pi-sort-numeric-up" (onClick)="roundFinalPriceToTen()" title="Ajustar Margen para redondear P. Final a múltiplo de 10" severity="help" [outlined]="true"></p-button>
       </div>
     </div>
 

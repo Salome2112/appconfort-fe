@@ -32,6 +32,8 @@ export class ProductFormComponent implements OnInit {
         'LIVING_ROOM', 'DINING_ROOM', 'BEDROOM', 'OFFICE', 'OUTDOOR', 'OTHER'
     ];
 
+    tasasIva: number[] = [0, 5, 15, 19];
+
     formData: CreateProductDto = {
         sku: '',
         name: '',
@@ -42,6 +44,7 @@ export class ProductFormComponent implements OnInit {
         overheadCost: 0,
         profitMargin: 0,
         taxRate: 0,
+        basePrice: 0,
         finalPrice: 0,
         isActive: true,
     };
@@ -70,12 +73,17 @@ export class ProductFormComponent implements OnInit {
         const beforeTax = subtotal + profit;
         const final = beforeTax * (1 + tax / 100);
 
+        this.formData.basePrice = Math.round((beforeTax + Number.EPSILON) * 100) / 100;
         this.formData.finalPrice = Math.round((final + Number.EPSILON) * 100) / 100;
     }
 
     ngOnInit(): void {
         if (this.producto) {
             this.esEdicion.set(true);
+            if (!this.tasasIva.includes(this.producto.taxRate)) {
+                this.tasasIva.push(this.producto.taxRate);
+                this.tasasIva.sort((a, b) => a - b);
+            }
             this.formData = {
                 sku: this.producto.sku,
                 name: this.producto.name,
@@ -86,6 +94,7 @@ export class ProductFormComponent implements OnInit {
                 overheadCost: this.producto.overheadCost,
                 profitMargin: this.producto.profitMargin,
                 taxRate: this.producto.taxRate,
+                basePrice: this.producto.basePrice,
                 finalPrice: this.producto.finalPrice,
                 isActive: this.producto.isActive,
                 imageUrl: this.producto.imageUrl ? `${environment.apiUrl}${this.producto.imageUrl}` : undefined
@@ -98,6 +107,14 @@ export class ProductFormComponent implements OnInit {
     }
 
     onGuardar(): void {
+        this.formData.taxRate = Number(this.formData.taxRate) || 0;
+        this.formData.materialCost = Number(this.formData.materialCost) || 0;
+        this.formData.laborCost = Number(this.formData.laborCost) || 0;
+        this.formData.overheadCost = Number(this.formData.overheadCost) || 0;
+        this.formData.profitMargin = Number(this.formData.profitMargin) || 0;
+        this.formData.basePrice = Number(this.formData.basePrice) || 0;
+        this.formData.finalPrice = Number(this.formData.finalPrice) || 0;
+
         if (this.esEdicion() && this.producto) {
             this.productService.update(this.producto.id, this.formData).subscribe({
                 next: () => this.guardado.emit(),
@@ -145,5 +162,25 @@ export class ProductFormComponent implements OnInit {
                 this.isUploadingImage.set(false);
             }
         });
+    }
+
+    roundFinalPriceToTen(): void {
+        const material = Number(this.formData.materialCost) || 0;
+        const labor = Number(this.formData.laborCost) || 0;
+        const overhead = Number(this.formData.overheadCost) || 0;
+        const tax = Number(this.formData.taxRate) || 0;
+        
+        const subtotal = material + labor + overhead;
+        if (subtotal === 0) return;
+
+        const currentFinalPrice = this.formData.finalPrice;
+        const targetFinalPrice = Math.round(currentFinalPrice / 10) * 10;
+        
+        const factor = 1 + tax / 100;
+        const newMargin = ((targetFinalPrice / (subtotal * factor)) - 1) * 100;
+        
+        this.formData.profitMargin = Math.round((newMargin + Number.EPSILON) * 100) / 100;
+        this.formData.basePrice = Math.round((targetFinalPrice / factor + Number.EPSILON) * 100) / 100;
+        this.formData.finalPrice = targetFinalPrice;
     }
 }

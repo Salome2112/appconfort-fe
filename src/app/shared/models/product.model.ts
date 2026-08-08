@@ -13,6 +13,7 @@ export interface Product {
     overheadCost: number;
     profitMargin: number;
     taxRate: number;
+    basePrice: number;
     finalPrice: number;
     createdAt?: string;
     updatedAt?: string;
@@ -30,6 +31,7 @@ export interface CreateProductDto {
     overheadCost: number;
     profitMargin: number;
     taxRate: number;
+    basePrice: number;
     finalPrice: number;
 }
 

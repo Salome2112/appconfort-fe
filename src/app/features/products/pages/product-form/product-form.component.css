@@ -183,3 +183,17 @@
   border-radius: 50%;
 }
 
+/* Estilo para los campos de solo lectura */
+::ng-deep .product-form-layout input.p-inputtext[readonly] {
+  background-color: #f1f5f9 !important;
+  color: #64748b !important;
+  cursor: not-allowed !important;
+  border: 1px dashed #cbd5e1 !important;
+}
+
+::ng-deep .product-form-layout input.p-inputtext[readonly]:focus {
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
